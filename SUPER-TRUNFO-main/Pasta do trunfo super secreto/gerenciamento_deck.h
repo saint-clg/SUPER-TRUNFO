@@ -9,7 +9,7 @@ void ShowCards(Cards card)
     if (card.trunfo == true)
         printf("            SUPER TRUNFO\n");
     printf(" %s\n", card.nome);
-    printf(" HP: %3.1d Atk: %3.1d\n", card.hp, card.ataque);
+    printf(" hp: %3.1d Atk: %3.1d\n", card.hp, card.ataque);
     printf(" Peso: %3.2f Altura: %2.2f\n", card.peso, card.altura);
     printf(" Habilidade: %15d |\n\n", card.habilidade);
 } // mostra as informações de uma carta no deck
