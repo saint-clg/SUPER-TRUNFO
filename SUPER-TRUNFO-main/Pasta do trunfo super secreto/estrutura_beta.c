@@ -9,20 +9,19 @@ int main()
     Cards buffer;
     FILE *arq_csv, *arq_dat;
 
-    arq_csv = fopen("list_cards.csv", "r+");
-    if (arq_csv == NULL)
-    {
-
-        printf("FALHA AO LER ARQUIVO CSV!\n");
-        exit(1);
-    } // if erro ao ler arquivo csv (meta_game);
-
-    arq_dat = fopen("save_cards.dat", "rb");
+    arq_dat = fopen("save_cards.dat", "r+b");
     if (arq_dat == NULL)
     {
+        arq_csv = fopen("list_cards.csv", "r+");
+        if (arq_csv == NULL)
+        {
+
+            printf("FALHA AO LER ARQUIVO CSV!\n");
+            exit(1);
+        } // if erro ao ler arquivo csv (meta_game);
 
         printf("PRIMEIRA INICIALIZAÇÃO...SALVANDO SEU JOGO <não feche o programa>\n");
-        arq_dat = fopen("save_cards.dat", "wb");
+        arq_dat = fopen("save_cards.dat", "w+b");
 
         if (arq_dat == NULL)
         {
@@ -31,6 +30,8 @@ int main()
         } // if erro ao criar arquivo bin;
         SaveBin(arq_csv, arq_dat, &buffer); // salva meta game no .dat
         memset(&buffer, 0, sizeof(Cards));  // limpa buffer
+
+        fclose(arq_csv);
 
     } // if para a primeira inicialização;
 
@@ -131,6 +132,8 @@ int main()
         printf("DEFAULT!\n");
         break;
     }
+
+    fclose(arq_dat);
 
     return 0;
 }
