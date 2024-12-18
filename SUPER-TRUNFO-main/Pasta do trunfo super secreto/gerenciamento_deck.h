@@ -42,9 +42,10 @@ void preencheStruct(Cards buffer, FILE *arq_dat)
     scanf("%1d", (int*)&buffer.trunfo);
     if(buffer.trunfo == 1){
 
+        rewind(arq_dat);
+        
         while(fread(&buffer_line, sizeof(Cards), 1, arq_dat) == 1){
-            
-            rewind(arq_dat);  
+              
             if(buffer_line.tipo == buffer.tipo && buffer_line.trunfo == 1){
 
                 ShowCards(buffer_line);
