@@ -93,8 +93,12 @@ int main()
             break;
 
         case 3:
-            // Adicionar (em construção)
-            printf("FUNCÃO ADICIONAR EM CONSTRUÇÃO\n");
+            preencheStruct(buffer, arq_dat);
+            n_cards = CountLines(arq_dat);
+            deck = realloc(deck, n_cards*(sizeof(Cards*)));
+            fread(&deck, sizeof(Cards*), n_cards, arq_dat);
+            memset(&buffer, 0, sizeof(Cards));
+            ShowCards(deck[n_cards]);
             break;
 
         case 4:
