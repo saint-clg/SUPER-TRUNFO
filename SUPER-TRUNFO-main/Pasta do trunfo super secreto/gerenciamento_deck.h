@@ -15,14 +15,48 @@ void ShowCards(Cards card)
     printf(" Habilidade: %15d |\n\n", card.habilidade);
 } // mostra as informações de uma carta no deck
 
-void preencheStruct(Cards buffer)
+void preencheStruct(Cards buffer, FILE *arq_dat)
 {
+    Cards buffer_line;
+    long posicao;
+    int num =1;
+
     printf("Digite o nome:");
     Strings(buffer.nome, 15);
     printf("Digite o tipo:");
+    setbuf(stdin, NULL);
     scanf("%c", &buffer.tipo);
+    while (fread(&buffer_line, sizeof(Cards),1,arq_dat)==1)
+    {
+        
+        if(buffer_line.tipo == buffer.tipo){
+
+            num++;
+        }
+
+    }
+    rewind(arq_dat);
+    
+    buffer.numero = num;
     printf("A carta é super trunfo?\n0 - Não\n1 - Sim");
-    scanf("%d", &buffer.trunfo);
+    scanf("%d", (int*)&buffer.trunfo);
+    if(buffer.trunfo == true){
+
+        while(fread(&buffer_line, sizeof(Cards), 1, arq_dat) == 1){
+
+            if(buffer_line.tipo == buffer.tipo && buffer_line.trunfo == true){
+
+                buffer_line.trunfo = false;
+                posicao = ftell(arq_dat) - sizeof(Cards);
+                fseek(arq_dat , posicao, SEEK_SET);
+                fwrite(&buffer_line,sizeof(Cards),1,arq_dat); 
+                fseek(arq_dat, 0, SEEK_CUR);
+            }
+
+        }
+
+        rewind(arq_dat);
+    }
     printf("Digite o HP:");
     scanf("%d", &buffer.hp);
     printf("Digite o ataque:");
@@ -34,11 +68,14 @@ void preencheStruct(Cards buffer)
     printf("Digite a habilidade:");
     scanf("%d", &buffer.habilidade);
 
+    fseek(arq_dat, 0, SEEK_END);
+    fwrite(&buffer, sizeof(Cards), 1, arq_dat);
+    rewind(arq_dat);
+
     ShowCards(buffer);
 }
 
-int SearchName(char buffer[], Cards card[], int n_cards)
-{
+int SearchName(char buffer[], Cards card[], int n_cards) {
 
     bool found;
     int x;
