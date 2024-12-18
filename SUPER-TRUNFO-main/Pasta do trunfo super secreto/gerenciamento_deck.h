@@ -3,13 +3,33 @@
 #include <stdlib.h>
 #include <string.h>
 
+void preencheStruct(Cards buffer)
+{
+    printf("Digite o nome:");
+    Strings(buffer.nome, 15);
+    printf("Digite o tipo:");
+    scanf("%c", &buffer.tipo);
+    printf("A carta é super trunfo?\n0 - Não\n1 - Sim");
+    scanf("%d", &buffer.trunfo);
+    printf("Digite o HP:");
+    scanf("%d", &buffer.hp);
+    printf("Digite o ataque:");
+    scanf("%d", &buffer.ataque);
+    printf("Digite o peso:");
+    scanf("%f", &buffer.peso);
+    printf("Digite a altura:");
+    scanf("%f", &buffer.altura);
+    printf("Digite a habilidade:");
+    scanf("%d", &buffer.habilidade);
+}
+
 void ShowCards(Cards card)
 {
     printf("\n| %c%d", card.tipo, card.numero);
     if (card.trunfo == true)
         printf("            SUPER TRUNFO\n");
     printf(" %s\n", card.nome);
-    printf(" hc: %3.1d Atk: %3.1d\n", card.hp, card.ataque);
+    printf(" HP: %3.1d Atk: %3.1d\n", card.hp, card.ataque);
     printf(" Peso: %3.2f Altura: %2.2f\n", card.peso, card.altura);
     printf(" Habilidade: %15d |\n\n", card.habilidade);
 } // mostra as informações de uma carta no deck
