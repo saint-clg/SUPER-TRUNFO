@@ -26,31 +26,35 @@ void preencheStruct(Cards buffer, FILE *arq_dat)
     printf("Digite o tipo:");
     setbuf(stdin, NULL);
     scanf("%c", &buffer.tipo);
-    while (fread(&buffer_line, sizeof(Cards),1,arq_dat)==1)
+    rewind(arq_dat);
+    while (fread(&buffer_line, sizeof(Cards),1,arq_dat) == 1)
     {
         
         if(buffer_line.tipo == buffer.tipo){
-
+            
+            ShowCards(buffer_line);
             num++;
         }
-
     }
-    rewind(arq_dat);
-    
     buffer.numero = num;
+
     printf("A carta é super trunfo?\n0 - Não\n1 - Sim");
-    scanf("%d", (int*)&buffer.trunfo);
-    if(buffer.trunfo == true){
+    scanf("%1d", (int*)&buffer.trunfo);
+    if(buffer.trunfo == 1){
 
         while(fread(&buffer_line, sizeof(Cards), 1, arq_dat) == 1){
+            
+            rewind(arq_dat);  
+            if(buffer_line.tipo == buffer.tipo && buffer_line.trunfo == 1){
 
-            if(buffer_line.tipo == buffer.tipo && buffer_line.trunfo == true){
-
-                buffer_line.trunfo = false;
+                ShowCards(buffer_line);
+                buffer_line.trunfo = 0;
                 posicao = ftell(arq_dat) - sizeof(Cards);
                 fseek(arq_dat , posicao, SEEK_SET);
                 fwrite(&buffer_line,sizeof(Cards),1,arq_dat); 
                 fseek(arq_dat, 0, SEEK_CUR);
+
+                ShowCards(buffer_line);
             }
 
         }
