@@ -3,14 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-void Strings(char a[], int b)
-{
-
-    setbuf(stdin, NULL);
-    fgets(a, b, stdin);
-    a[strcspn(a, "\n")] = '\0';
-}
-
 int main()
 {
 
