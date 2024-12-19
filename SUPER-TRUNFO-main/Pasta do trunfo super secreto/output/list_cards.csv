@@ -1,6 +1,40 @@
 nome,tipo,numero,trunfo,hp,ataque,peso,altura,habilidade
-Pikachu,E,25,1,35,55,6.0,0.4,50
-Charmander,F,4,1,39,52,8.5,0.6,62
-Bulbasaur,P,1,0,45,49,6.9,0.7,64
-Squirtle,A,7,0,44,48,9.0,0.5,63
-Jigglypuff,N,39,1,115,45,5.5,0.5,50
+Ninetales,F,038,Falso,65,67,19.9,1.1,1
+Articuno,P,144,Falso,90,85,55.4,1.7,1
+Glalie,I,362,Falso,80,70,256.5,1.5,1
+Glalie Mega,I,362,Verdadeiro,80,120,350.2,1.5,2
+Glaceon,I,471,Falso,65,60,25.9,0.8,3
+Vaniluxe,I,584,Falso,71,95,57.5,1.1,4
+Kyurem,I,646,Verdadeiro,125,130,325.0,2.6,5
+Mr. Rime,P,866,Falso,80,85,58.0,1.5,1
+Mr. Mime Galar,P,122,Falso,50,65,56.5,1.2,2
+Salamence,D,373,Falso,95,135,102.6,1.5,1
+Salamence Mega,D,373,Verdadeiro,95,150,102.6,1.5,2
+Rayquaza,D,384,Verdadeiro,105,150,206.5,7.0,3
+Garchomp,D,445,Falso,108,130,95.0,1.9,4
+Hydreigon,D,635,Falso,92,125,160.0,1.8,5
+Dragapult,D,887,Falso,88,120,50.0,2.0,6
+Goodra,D,706,Falso,90,100,150.0,2.0,7
+Latios,D,380,Falso,80,130,40.0,1.8,8
+Latias,D,381,Falso,80,110,40.0,1.4,9
+Dragonite,D,149,Falso,91,134,210.0,2.2,10
+Alakazam,P,065,Falso,55,50,48.0,1.5,2
+Alakazam Mega,P,065,Verdadeiro,55,175,48.0,1.5,3
+Mewtwo,P,150,Verdadeiro,106,150,122.0,2.0,4
+Espeon,P,196,Falso,65,65,26.5,0.9,5
+Gardevoir,P,282,Falso,68,85,48.4,1.6,6
+Metagross,P,376,Falso,80,135,550.0,1.6,7
+Solrock,P,338,Falso,90,95,97.0,1.2,8
+Lunatone,P,337,Falso,90,55,168.0,1.1,9
+Hoopa,P,720,Falso,80,110,9.0,0.6,10
+Jirachi,P,385,Falso,100,100,11.0,0.6,11
+Lucario,L,448,Falso,70,110,54.0,1.2,1
+Lucario Mega,L,448,Verdadeiro,70,145,57.5,1.2,2
+Machamp,L,068,Falso,90,130,130.0,1.6,3
+Toxicroak,L,453,Falso,83,106,44.4,1.3,4
+Hawlucha,L,701,Falso,78,92,21.5,0.8,5
+Urshifu,L,892,Verdadeiro,100,130,105.0,1.9,6
+Throh,L,538,Falso,120,100,55.0,1.5,7
+Sawk,L,539,Falso,75,125,51.0,1.3,8
+Scrafty,L,560,Falso,65,90,30.0,1.1,9
+Primeape,L,057,Falso,65,105,32.0,1.0,10
