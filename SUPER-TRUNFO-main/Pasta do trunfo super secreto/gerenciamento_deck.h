@@ -114,7 +114,8 @@ void ExcluirCard(Cards deck[], FILE *arq_dat){
 
             if(verificacao == 's' || verificacao == 'S'){
                 
-                freopen(NULL, "wb", arq_dat);
+                fclose(arq_dat);
+                arq_dat = fopen("save_cards.dat", "w+b");
                 if(arq_dat == NULL){
 
                     printf("ERRO AO ZERAR ARQ_DAT!\n");

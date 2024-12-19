@@ -96,8 +96,8 @@ int main()
         case 3:
             AddCard(buffer, arq_dat);
             n_cards = CountLines(arq_dat);
-            deck = realloc(deck, n_cards*(sizeof(Cards*)));
-            fread(&deck, sizeof(Cards*), n_cards, arq_dat);
+            deck = realloc(deck, n_cards*(sizeof(Cards)));
+            fread(deck, sizeof(Cards), n_cards, arq_dat);
             memset(&buffer, 0, sizeof(Cards));
             ShowCards(deck[n_cards]);
             break;
@@ -107,6 +107,7 @@ int main()
             ExcluirCard(deck, arq_dat);
             n_cards = CountLines(arq_dat);
             deck = realloc(deck, n_cards*(sizeof(Cards)));
+            rewind(arq_dat);
             fread(deck, sizeof(Cards), n_cards, arq_dat);
             break;
 
