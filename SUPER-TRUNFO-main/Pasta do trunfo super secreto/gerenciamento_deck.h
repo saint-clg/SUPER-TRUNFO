@@ -15,7 +15,7 @@ void ShowCards(Cards card)
     printf(" Habilidade: %15d |\n\n", card.habilidade);
 } // mostra as informações de uma carta no deck
 
-void preencheStruct(Cards buffer, FILE *arq_dat)
+void AddCard(Cards buffer, FILE *arq_dat)
 {
     Cards buffer_line;
     long posicao;
@@ -43,7 +43,6 @@ void preencheStruct(Cards buffer, FILE *arq_dat)
     if(buffer.trunfo == 1){
 
         rewind(arq_dat);
-        
         while(fread(&buffer_line, sizeof(Cards), 1, arq_dat) == 1){
               
             if(buffer_line.tipo == buffer.tipo && buffer_line.trunfo == 1){
@@ -78,6 +77,70 @@ void preencheStruct(Cards buffer, FILE *arq_dat)
     rewind(arq_dat);
 
     ShowCards(buffer);
+}
+
+void ExcluirCard(Cards deck[], FILE *arq_dat){
+
+    char buffer_nome[15];
+    int lines = CountLines(arq_dat), new_size =0;
+    Cards temp_deck[lines];
+    bool encontrado = false, end = false;
+
+    do{
+
+        new_size = 0;   
+        encontrado = false;
+
+        printf("NOME DA CARTA EXCLUIDA: ");
+        Strings(buffer_nome, 15);
+
+        for(int i=0; i < lines; i++){
+
+            if(strcasecmp(deck[i].nome, buffer_nome) != 0){
+
+                temp_deck[new_size++] = deck[i];
+            }else {
+
+                encontrado = true;
+                ShowCards(deck[i]);
+            }
+        }
+
+        if (encontrado == true){
+
+            char verificacao;
+            printf("Tem certeza que deseja excluir o %s? (s/n)\n", buffer_nome);
+            scanf("%c", &verificacao);
+
+            if(verificacao == 's' || verificacao == 'S'){
+                
+                freopen(NULL, "wb", arq_dat);
+                if(arq_dat == NULL){
+
+                    printf("ERRO AO ZERAR ARQ_DAT!\n");
+                    return;
+                }
+                
+                rewind(arq_dat);
+                fwrite(temp_deck, sizeof(Cards), new_size, arq_dat);
+                printf("%s foi excluido!\n", buffer_nome);
+                end = true;
+            }else{
+
+                printf("Operação cancelada\n");
+                return;
+            }
+        }else {
+
+            char verificacao;
+            printf("Carta não encontrada!\nTentar novamente?(s\n)\n");
+            scanf("%c", &verificacao);
+            if(verificacao == 'n'|| verificacao == 'N'){
+
+                end = true;
+            }
+        }
+    }while (!end);
 }
 
 int SearchName(char buffer[], Cards card[], int n_cards) {

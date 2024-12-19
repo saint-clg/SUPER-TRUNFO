@@ -94,7 +94,7 @@ int main()
             break;
 
         case 3:
-            preencheStruct(buffer, arq_dat);
+            AddCard(buffer, arq_dat);
             n_cards = CountLines(arq_dat);
             deck = realloc(deck, n_cards*(sizeof(Cards*)));
             fread(&deck, sizeof(Cards*), n_cards, arq_dat);
@@ -103,8 +103,11 @@ int main()
             break;
 
         case 4:
-            // Excluir (em construção)
-            printf("FUNCÃO EXCLUIR EM CONSTRUÇÃO\n");
+            
+            ExcluirCard(deck, arq_dat);
+            n_cards = CountLines(arq_dat);
+            deck = realloc(deck, n_cards*(sizeof(Cards)));
+            fread(deck, sizeof(Cards), n_cards, arq_dat);
             break;
 
         case 5:
