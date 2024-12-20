@@ -81,14 +81,12 @@ void AddCard(Cards buffer, FILE *arq_dat)
                     if (buffer_line.tipo == buffer.tipo && buffer_line.trunfo == 1)
                     {
 
-                        ShowCards(buffer_line);
                         buffer_line.trunfo = 0;
                         posicao = ftell(arq_dat) - sizeof(Cards);
                         fseek(arq_dat, posicao, SEEK_SET);
                         fwrite(&buffer_line, sizeof(Cards), 1, arq_dat);
                         fseek(arq_dat, 0, SEEK_CUR);
 
-                        ShowCards(buffer_line);
                     }
                 }
 
