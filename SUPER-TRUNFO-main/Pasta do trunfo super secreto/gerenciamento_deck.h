@@ -30,13 +30,15 @@ void AddCard(Cards buffer, FILE *arq_dat){
             setbuf(stdin, NULL);
             scanf("%c", &buffer.tipo);
             tipo = buffer.tipo;
+            if(tipo != 'P' || tipo != 'L' || tipo != 'D' || tipo != 'G' || tipo != 'p' || tipo != 'l' || tipo != 'd' || tipo != 'g'){
+
+                printf("TIPO NÃO EXISTENTE:\n(P) PSIQUICO\n(L) LUTADOR\n(G) GELO\n(D) DRAGÃO\nEscolha um dos tipos disponíveis!\n");
+            }
         }while(tipo != 'P' && tipo != 'L' && tipo != 'D' && tipo != 'G' && tipo != 'p' && tipo != 'l' && tipo != 'd' && tipo != 'g');
         rewind(arq_dat);
         while (fread(&buffer_line, sizeof(Cards), 1, arq_dat) == 1){
 
             if (buffer_line.tipo == buffer.tipo){
-
-                ShowCards(buffer_line);
                 num++;
             }
         }
@@ -294,8 +296,4 @@ void Filter(int navegate, Cards deck[], FILE *arq){
     if (found == false){
             printf("Nenhuma carta encontrada.\n");
         }
-}
-
-void ExportCsv(FILE *arq_dat){
-
 }

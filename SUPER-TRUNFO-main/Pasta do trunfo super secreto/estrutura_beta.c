@@ -87,7 +87,6 @@ int main()
             deck = realloc(deck, n_cards*(sizeof(Cards)));
             fread(deck, sizeof(Cards), n_cards, arq_dat);
             memset(&buffer, 0, sizeof(Cards));
-            ShowCards(deck[n_cards]);
             break;
 
         case 4:
