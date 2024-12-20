@@ -57,7 +57,7 @@ int main()
 
     case 2:
         // Abre menu de opções de configuração do deck
-        printf("1- BUSCAR\n2 - FILTRAR\n3- ADICIONAR\n4- EXCLUIR\n5- VOLTAR\n...");
+        printf("1- BUSCAR\n2- FILTRAR\n3- ADICIONAR\n4- EXCLUIR\n5- ALTERAR\n6- EXPORTAR\n7- VOLTAR\n...");
 
         // Aguardando o input do usuário para o próximo comando
         navegate = 0;
@@ -90,7 +90,7 @@ int main()
             break;
 
         case 4:
-            ExcluirCard(deck, arq_dat);
+            DeletCard(deck, arq_dat);
             n_cards = CountLines(arq_dat);
             deck = realloc(deck, n_cards*(sizeof(Cards)));
             rewind(arq_dat);
@@ -98,8 +98,12 @@ int main()
             break;
 
         case 5:
-            // Voltar
-            printf("VOLTANDO...\n");
+            ExportCsv(arq_dat);
+            break;
+        
+        case 6:
+            // ALTERAR DECK
+            printf("EM CONSTRUÇÃO\n");
             break;
 
         default:
