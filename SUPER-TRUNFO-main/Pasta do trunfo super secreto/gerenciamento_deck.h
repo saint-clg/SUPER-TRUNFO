@@ -18,72 +18,101 @@ void AddCard(Cards buffer, FILE *arq_dat)
 {
     Cards buffer_line;
     long posicao;
-    int num = 1;
-    int verificacao;
+    int num = 1, sub_menu;
+    char confirm, tipo;
+    bool end =false;
 
-    printf("Digite o nome:");
-    Strings(buffer.nome, 15);
-    printf("Digite o tipo:");
-    setbuf(stdin, NULL);
-    scanf("%c", &buffer.tipo);
-    rewind(arq_dat);
-    while (fread(&buffer_line, sizeof(Cards), 1, arq_dat) == 1)
-    {
+    do{
+        num = 1;
 
-        if (buffer_line.tipo == buffer.tipo)
-        {
-
-            ShowCards(buffer_line);
-            num++;
-        }
-    }
-    buffer.numero = num;
-
-    printf("A carta é super trunfo?\n0 - Não\n1 - Sim");
-    scanf("%1d", (int *)&buffer.trunfo);
-    if (buffer.trunfo == 1)
-    {
-
+        printf("Digite o nome:");
+        Strings(buffer.nome, 15);
+        do{
+            printf("Digite o tipo: (P/L/G/D)\n");
+            setbuf(stdin, NULL);
+            scanf("%c", &buffer.tipo);
+            tipo = buffer.tipo;
+        }while(tipo != 'P' && tipo != 'L' && tipo != 'D' && tipo != 'G' && tipo != 'p' && tipo != 'l' && tipo != 'd' && tipo != 'g');
         rewind(arq_dat);
         while (fread(&buffer_line, sizeof(Cards), 1, arq_dat) == 1)
         {
 
-            if (buffer_line.tipo == buffer.tipo && buffer_line.trunfo == 1)
+            if (buffer_line.tipo == buffer.tipo)
             {
 
                 ShowCards(buffer_line);
-                buffer_line.trunfo = 0;
-                posicao = ftell(arq_dat) - sizeof(Cards);
-                fseek(arq_dat, posicao, SEEK_SET);
-                fwrite(&buffer_line, sizeof(Cards), 1, arq_dat);
-                fseek(arq_dat, 0, SEEK_CUR);
+                num++;
+            }
+        }
+        buffer.numero = num;
 
-                ShowCards(buffer_line);
+        printf("Criar SUPER TRUNFO??\n0 - Não\n1 - Sim\n...");
+        scanf("%1d", (int *)&buffer.trunfo);
+        printf("Digite o HP:");
+        scanf("%d", &buffer.hp);
+        printf("Digite o ataque:");
+        scanf("%d", &buffer.ataque);
+        printf("Digite o peso:");
+        scanf("%f", &buffer.peso);
+        printf("Digite a altura:");
+        scanf("%f", &buffer.altura);
+        printf("Digite a habilidade:");
+        scanf("%d", &buffer.habilidade);
+
+        printf("Tem certeza que deseja criar a carta?(s/n)");
+        ShowCards(buffer);
+        setbuf(stdin, NULL);
+        scanf("%c", &confirm);
+        if(confirm == 's' || confirm == 'S'){
+            
+            if (buffer.trunfo == 1)
+            {
+
+                rewind(arq_dat);
+                while (fread(&buffer_line, sizeof(Cards), 1, arq_dat) == 1)
+                {
+
+                    if (buffer_line.tipo == buffer.tipo && buffer_line.trunfo == 1)
+                    {
+
+                        ShowCards(buffer_line);
+                        buffer_line.trunfo = 0;
+                        posicao = ftell(arq_dat) - sizeof(Cards);
+                        fseek(arq_dat, posicao, SEEK_SET);
+                        fwrite(&buffer_line, sizeof(Cards), 1, arq_dat);
+                        fseek(arq_dat, 0, SEEK_CUR);
+
+                        ShowCards(buffer_line);
+                    }
+                }
+
+                rewind(arq_dat);
+            }// if super trunfo
+
+            fseek(arq_dat, 0, SEEK_END);
+            fwrite(&buffer, sizeof(Cards), 1, arq_dat);
+            rewind(arq_dat);
+
+            printf("%s Foi criado como Carta de N = %d do tipo %c\n",   buffer.nome,
+                                                                        buffer.numero,
+                                                                        buffer.tipo);
+
+            end = true;
+        }else{
+
+            printf("Voltar (1)\nCriar nova carta (2)\n...");
+            setbuf(stdin, NULL);
+            scanf("%d", &sub_menu);
+            if(sub_menu == 1){
+
+                end = true;
+            }else {
+
+                continue;
             }
         }
 
-        rewind(arq_dat);
-    }
-    printf("Digite o HP:");
-    scanf("%d", &buffer.hp);
-    printf("Digite o ataque:");
-    scanf("%d", &buffer.ataque);
-    printf("Digite o peso:");
-    scanf("%f", &buffer.peso);
-    printf("Digite a altura:");
-    scanf("%f", &buffer.altura);
-    printf("Digite a habilidade:");
-    scanf("%d", &buffer.habilidade);
-
-    printf("Tem certeza que deseja criar a carta?");
-    printf("1 -  Sim\n2 - Não\n3 - Cancelar e criar outra\n");
-    scanf("%d", &verificacao);
-
-    fseek(arq_dat, 0, SEEK_END);
-    fwrite(&buffer, sizeof(Cards), 1, arq_dat);
-    rewind(arq_dat);
-
-    ShowCards(buffer);
+    }while(!end);
 }
 
 void ExcluirCard(Cards deck[], FILE *arq_dat)
@@ -100,7 +129,7 @@ void ExcluirCard(Cards deck[], FILE *arq_dat)
         new_size = 0;
         encontrado = false;
 
-        printf("NOME DA CARTA EXCLUIDA: ");
+        printf("Nome da carta: ");
         Strings(buffer_nome, 15);
 
         for (int i = 0; i < lines; i++)
@@ -193,143 +222,103 @@ int SearchName(char buffer[], Cards card[], int n_cards)
     return x;
 }
 
-void Filter(int navegate, Cards deck[], FILE *arq)
-{
+void Filter(int navegate, Cards deck[], FILE *arq){
     char w;
     bool found;
 
-    switch (navegate)
-    {
+    switch (navegate){
     case 1:
 
         printf("Digite o tipo a ser filtrado:");
         getchar();
         scanf("%c", &w);
 
-        for (int i = 0; i < CountLines(arq); i++)
-        {
-            if (w == deck[i].tipo)
-            {
+        for (int i = 0; i < CountLines(arq); i++){
+            if (w == deck[i].tipo){
                 found = true;
                 ShowCards(deck[i]);
             }
         }
-
-        if (found == false)
-        {
-            printf("Nenhuma carta encontrada.\n");
-        }
-
         break;
 
     case 2:
-        printf("STATS:\n1 - HP\n2 - Ataque\n3 - Peso\n4 - Altura\nDigite sua opção: ");
 
-        int opcao2 = 0;
+        navegate = 0;
+
+        printf("Filtro por status:\n1 - HP\n2 - ATK\n3 - Peso\n4 - Altura\n....: ");
+
         float X, Y;
 
-        scanf("%d", &opcao2);
+        scanf("%d", &navegate);
 
         printf("\n\n");
 
-        printf("Filtrar valor entre X e Y.\n");
+        printf("Filtrar valor (X <= Y)\n");
         printf("X:");
         scanf("%f", &X);
         printf("Y:");
         scanf("%f", &Y);
 
-        if (opcao2 == 1)
-        {
+        if (navegate == 1){
             printf("HP entre %.f e %.f:\n", X, Y);
-            for (int i = 0; i < CountLines(arq); i++)
-            {
-                if (X <= deck[i].hp && Y >= deck[i].hp)
-                {
+            for (int i = 0; i < CountLines(arq); i++){
+                if (X <= deck[i].hp && Y >= deck[i].hp){
                     found = true;
                     ShowCards(deck[i]);
                 } // if
             } // for
-
-            if (found == false)
-            {
-                printf("Nenhuma carta encontrada.\n");
-            }
         }
 
-        if (opcao2 == 2)
-        {
+        if (navegate == 2){
             printf("Ataque entre %.f e %.f:\n", X, Y);
-            for (int i = 0; i < CountLines(arq); i++)
-            {
-                if (X <= deck[i].ataque && Y >= deck[i].ataque)
-                {
+            for (int i = 0; i < CountLines(arq); i++){
+                if (X <= deck[i].ataque && Y >= deck[i].ataque){
                     found = true;
                     ShowCards(deck[i]);
                 } // if
             } // for
-
-            if (found == false)
-            {
-                printf("Nenhuma carta encontrada.\n");
-            }
         }
 
-        if (opcao2 == 3)
-        {
+        if (navegate == 3){
             printf("Peso entre %.2f e %.2f:\n", X, Y);
-            for (int i = 0; i < CountLines(arq); i++)
-            {
-                if (X <= deck[i].peso && Y >= deck[i].peso)
-                {
+            for (int i = 0; i < CountLines(arq); i++){
+                if (X <= deck[i].peso && Y >= deck[i].peso){
                     found = true;
                     ShowCards(deck[i]);
                 } // if
             } // for
+        }// if
 
-            if (found == false)
-            {
-                printf("Nenhuma carta encontrada.\n");
-            }
-        }
-
-        if (opcao2 == 4)
-        {
+        if (navegate == 4){
             printf("Altura entre %.2f e %.2f:\n", X, Y);
-            for (int i = 0; i < CountLines(arq); i++)
-            {
-                if (X <= deck[i].altura && Y >= deck[i].altura)
-                {
+            for (int i = 0; i < CountLines(arq); i++){
+                if (X <= deck[i].altura && Y >= deck[i].altura){
                     found = true;
                     ShowCards(deck[i]);
                 } // if
             } // for
-
-            if (found == false)
-            {
-                printf("Nenhuma carta encontrada.\n");
-            }
         }
-
+        
         break;
     case 3:
 
-        for (int i = 0; i < CountLines(arq); i++)
-        {
-            if (deck[i].trunfo == true)
-            {
+        for (int i = 0; i < CountLines(arq); i++){
+            if (deck[i].trunfo == true){
                 found = true;
                 ShowCards(deck[i]);
             } // if
         } // for
-
-        if (found == false)
-        {
-            printf("Nenhuma carta encontrada.\n");
-        }
-
         break;
 
     default:
         break;
     }
+
+    if (found == false){
+            printf("Nenhuma carta encontrada.\n");
+        }
+}
+
+void ExportCsv(FILE *arq_dat){
+
 }
