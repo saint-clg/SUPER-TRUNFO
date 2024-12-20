@@ -35,7 +35,7 @@ void AddCard(Cards buffer, FILE *arq_dat)
             setbuf(stdin, NULL);
             scanf("%c", &buffer.tipo);
             tipo = buffer.tipo;
-            if (tipo != 'P' || tipo != 'L' || tipo != 'D' || tipo != 'G' || tipo != 'p' || tipo != 'l' || tipo != 'd' || tipo != 'g')
+            if (tipo != 'P' && tipo != 'L' && tipo != 'D' && tipo != 'G' && tipo != 'p' && tipo != 'l' && tipo != 'd' && tipo != 'g')
             {
 
                 printf("TIPO NÃO EXISTENTE:\n(P) PSIQUICO\n(L) LUTADOR\n(G) GELO\n(D) DRAGÃO\nEscolha um dos tipos disponíveis!\n");
@@ -126,7 +126,7 @@ void AddCard(Cards buffer, FILE *arq_dat)
     } while (!end);
 }
 
-void ExcluirCard(Cards deck[], FILE *arq_dat)
+void DeletCard(Cards deck[], FILE *arq_dat)
 {
 
     char buffer_nome[20];
@@ -348,3 +348,143 @@ void Filter(int navegate, Cards deck[], FILE *arq)
         printf("Nenhuma carta encontrada.\n");
     }
 }
+
+void SwitchStatus(Cards deck[], Cards buffer, FILE *arq_dat)
+{
+    char confirm;
+    int sub_menu =0, savei;
+    bool end = false, alterCard = false;
+
+    do{
+        printf("Nome da carta: ");
+        Strings(buffer.nome, 20);
+
+        for(int i =0; i < CountLines(arq_dat); i++){
+            
+            if(strcasecmp(deck[i].nome, buffer.nome) == 0){
+
+                ShowCards(deck[i]);
+
+                printf("Deseja alterar os status dessa carta?(s/n)\n");
+                scanf("%c", &confirm);
+                if(confirm == 's' || confirm == 'S'){
+
+                    printf("ALTERAR:\n1- HP\n2- ATK\n3- PESO\n4- ALTURA\n...");
+                    setbuf(stdin, NULL);
+                    scanf("%d", &sub_menu);
+                    savei = i;
+                    do{
+
+                        if(sub_menu == 1){
+
+                            printf("NOVO HP: ");
+                            setbuf(stdin, NULL);
+                            scanf("%d", &deck[i].hp);
+                            end = true;
+                            alterCard = true;
+                            
+                        }
+                        if(sub_menu == 2){
+
+                            printf("NOVO ATK: ");
+                            setbuf(stdin, NULL);
+                            scanf("%d", &deck[i].ataque);
+                            end = true;
+                            alterCard = true;
+                        }
+                        if(sub_menu == 3){
+
+                            printf("NOVO PESO: ");
+                            setbuf(stdin, NULL);
+                            scanf("%f", &deck[i].peso);
+                            end = true;
+                            alterCard = true;
+                        }
+                        if(sub_menu == 4){
+
+                            printf("NOVA ALTURA: ");
+                            setbuf(stdin, NULL);
+                            scanf("%f", &deck[i].altura);
+                            end = true;
+                            alterCard = true;
+                        }
+
+                        if(sub_menu != 1 && sub_menu != 2 && sub_menu != 3 && sub_menu != 4){
+
+                            printf("ERRO AO AVANÇAR PELO SUB_MENU!\n");
+                            end = false;
+                        }
+                    }while(sub_menu != 1 && sub_menu != 2 && sub_menu != 3 && sub_menu != 4);
+                    
+                }else {
+
+                    printf("1- Cancelar\n2- Pesquisar outra carta\n...");
+                    scanf("%d", &sub_menu);
+                    if(sub_menu == 1){
+
+                        end = true;
+                    }else {
+
+                        continue;
+                    }
+                }
+            }
+        }
+    }while(!end);
+
+    if(alterCard){
+
+        fclose(arq_dat);
+            arq_dat = fopen("save_cards.dat", "w+b");
+            if (arq_dat == NULL)
+            {
+
+                printf("ERRO AO ZERAR ARQ_DAT!\n");
+                return;
+            }
+
+        rewind(arq_dat);
+
+        if(fwrite(deck, sizeof(Cards), CountLines(arq_dat), arq_dat) == 1){
+
+            printf("CARRENGANDO NOVA CARTA NO .DAT...\n");
+        }
+    
+        printf("CARTA ALTERADA COM SUCESSO!");
+        ShowCards(deck[savei]);
+    }
+}
+
+void ExportCsv(FILE *arq_dat)
+{
+
+    FILE *n_arq_csv = fopen("deck_supertrunfo.csv", "w+b");
+    if(n_arq_csv == NULL){
+
+        printf("FALHA AO CRIAR ARQUIVO PARA EXPORTAÇÃO DE DECK\n");
+        return;
+    }
+
+    Cards buffer;
+    rewind(arq_dat);
+
+    fprintf(n_arq_csv,"nome,tipo,numero,trunfo,hp,ataque,peso,altura,habilidade\n");
+
+    while(fread(&buffer, sizeof(Cards), 1, arq_dat) == 1){
+
+        fprintf(n_arq_csv,"%s,%c,%d,%d,%d,%d,%.2f,%.2f,%d\n",   buffer.nome,
+                                                            buffer.tipo,
+                                                            (int)buffer.trunfo,
+                                                            buffer.numero,
+                                                            buffer.hp,
+                                                            buffer.ataque,
+                                                            buffer.peso,
+                                                            buffer.altura,
+                                                            buffer.habilidade);
+    }
+
+    printf("ARQUIVO EXPORTADO PARA ""deck_supertrunfo.csv""\n");
+
+    fclose(n_arq_csv);
+}
+
