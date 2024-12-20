@@ -1,21 +1,20 @@
-# Nome do compilador e flags
+# compilador e flags??
 CC = gcc
 CFLAGS = -Wall -Wextra -O2
 
-# Nome do executável
+# nome do arquivo exe
 TARGET = estrutura_beta
 
-# Arquivos fonte e cabeçalhos
+# fontes e headers
 SRC = estrutura_beta.c struct_card.c gerenciamento_deck.c
 OBJ = $(SRC:.c=.o)
 
-# Detecta o sistema operacional
+# sistema operacional
 OS := $(shell uname 2>/dev/null || echo Windows)
 
-# Regra padrão
 all: $(TARGET)
 
-# Regra para criar o executável
+# criar o executável
 $(TARGET): $(OBJ)
 	@echo "Gerando arquivo executável"
 ifeq ($(OS), Windows)
@@ -24,12 +23,12 @@ else
 	$(CC) $(OBJ) -o $(TARGET)
 endif
 
-# Regra para compilar os objetos
+# compilando obj
 %.o: %.c
 	@echo "Compilando e gerando os objetos"
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Limpeza de arquivos gerados
+# limpa arquivos criados
 clean:
 	@echo "Apagando objetos e executáveis antigos..."
 ifeq ($(OS), Windows)
@@ -38,7 +37,7 @@ else
 	rm -f $(OBJ) $(TARGET)
 endif
 
-# Regra para executar o programa
+# executar os programas
 run: all
 ifeq ($(OS), Windows)
 	@$(TARGET).exe
