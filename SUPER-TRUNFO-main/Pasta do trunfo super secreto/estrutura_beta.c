@@ -73,7 +73,7 @@ int main()
             break;
 
         case 2:
-            navegate = 0;// Abertura de submenu
+            navegate = 0; // Abertura de submenu
             printf("FILTRAR:\n1- TIPO\n2- STATS\n3- SUPER TRUNFOS\n...");
             scanf("%d", &navegate);
             printf("\n\n");
@@ -83,7 +83,7 @@ int main()
         case 3:
             AddCard(buffer, arq_dat);
             n_cards = CountLines(arq_dat);
-            deck = realloc(deck, n_cards*(sizeof(Cards)));
+            deck = realloc(deck, n_cards * (sizeof(Cards)));
             fread(deck, sizeof(Cards), n_cards, arq_dat);
             memset(&buffer, 0, sizeof(Cards));
             break;
@@ -91,7 +91,7 @@ int main()
         case 4:
             DeletCard(deck, arq_dat);
             n_cards = CountLines(arq_dat);
-            deck = realloc(deck, n_cards*(sizeof(Cards)));
+            deck = realloc(deck, n_cards * (sizeof(Cards)));
             rewind(arq_dat);
             fread(deck, sizeof(Cards), n_cards, arq_dat);
             break;
@@ -100,7 +100,7 @@ int main()
             SwitchStatus(deck, buffer, arq_dat);
             memset(&buffer, 0, sizeof(Cards));
             break;
-        
+
         case 6:
             ExportCsv(arq_dat);
             break;
@@ -130,4 +130,4 @@ int main()
     free(deck);
 
     return 0;
-}
+} // main
