@@ -57,12 +57,7 @@ int main()
 
     case 2:
         // Abre menu de opções de configuração do deck
-        printf("1- BUSCAR\n");
-        printf("2- FILTRAR\n");
-        printf("3- ADICIONAR\n");
-        printf("4- EXCLUIR\n");
-        printf("5- VOLTAR\n");
-        printf("Digite sua opção:");
+        printf("1- BUSCAR\n2 - FILTRAR\n3- ADICIONAR\n4- EXCLUIR\n5- VOLTAR\n...");
 
         // Aguardando o input do usuário para o próximo comando
         navegate = 0;
@@ -79,15 +74,8 @@ int main()
             break;
 
         case 2:
-
-            navegate = 0;
-
-            printf("FILTRAR POR\n");
-            printf("1 - Tipo\n");
-            printf("2 - Stats\n");
-            printf("3 - Trunfos\n");
-            printf("Digite sua opção:");
-
+            navegate = 0;// Abertura de submenu
+            printf("FILTRAR:\n1- TIPO\n2- STATS\n3- SUPER TRUNFOS\n...");
             scanf("%d", &navegate);
             printf("\n\n");
             Filter(navegate, deck, arq_dat);
@@ -103,7 +91,6 @@ int main()
             break;
 
         case 4:
-            
             ExcluirCard(deck, arq_dat);
             n_cards = CountLines(arq_dat);
             deck = realloc(deck, n_cards*(sizeof(Cards)));
