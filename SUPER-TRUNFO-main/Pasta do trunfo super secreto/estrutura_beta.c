@@ -98,12 +98,12 @@ int main()
             break;
 
         case 5:
-            ExportCsv(arq_dat);
+            SwitchStatus(deck, buffer, arq_dat);
+            memset(&buffer, 0, sizeof(Cards));
             break;
         
         case 6:
-            // ALTERAR DECK
-            printf("EM CONSTRUÇÃO\n");
+            ExportCsv(arq_dat);
             break;
 
         default:
