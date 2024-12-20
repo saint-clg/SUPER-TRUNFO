@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 void ShowCards(Cards card)
 {
     printf("\n| %c%d", card.tipo, card.numero);
@@ -19,7 +18,8 @@ void AddCard(Cards buffer, FILE *arq_dat)
 {
     Cards buffer_line;
     long posicao;
-    int num =1;
+    int num = 1;
+    int verificacao;
 
     printf("Digite o nome:");
     Strings(buffer.nome, 15);
@@ -27,11 +27,12 @@ void AddCard(Cards buffer, FILE *arq_dat)
     setbuf(stdin, NULL);
     scanf("%c", &buffer.tipo);
     rewind(arq_dat);
-    while (fread(&buffer_line, sizeof(Cards),1,arq_dat) == 1)
+    while (fread(&buffer_line, sizeof(Cards), 1, arq_dat) == 1)
     {
-        
-        if(buffer_line.tipo == buffer.tipo){
-            
+
+        if (buffer_line.tipo == buffer.tipo)
+        {
+
             ShowCards(buffer_line);
             num++;
         }
@@ -39,24 +40,26 @@ void AddCard(Cards buffer, FILE *arq_dat)
     buffer.numero = num;
 
     printf("A carta é super trunfo?\n0 - Não\n1 - Sim");
-    scanf("%1d", (int*)&buffer.trunfo);
-    if(buffer.trunfo == 1){
+    scanf("%1d", (int *)&buffer.trunfo);
+    if (buffer.trunfo == 1)
+    {
 
         rewind(arq_dat);
-        while(fread(&buffer_line, sizeof(Cards), 1, arq_dat) == 1){
-              
-            if(buffer_line.tipo == buffer.tipo && buffer_line.trunfo == 1){
+        while (fread(&buffer_line, sizeof(Cards), 1, arq_dat) == 1)
+        {
+
+            if (buffer_line.tipo == buffer.tipo && buffer_line.trunfo == 1)
+            {
 
                 ShowCards(buffer_line);
                 buffer_line.trunfo = 0;
                 posicao = ftell(arq_dat) - sizeof(Cards);
-                fseek(arq_dat , posicao, SEEK_SET);
-                fwrite(&buffer_line,sizeof(Cards),1,arq_dat); 
+                fseek(arq_dat, posicao, SEEK_SET);
+                fwrite(&buffer_line, sizeof(Cards), 1, arq_dat);
                 fseek(arq_dat, 0, SEEK_CUR);
 
                 ShowCards(buffer_line);
             }
-
         }
 
         rewind(arq_dat);
@@ -72,6 +75,10 @@ void AddCard(Cards buffer, FILE *arq_dat)
     printf("Digite a habilidade:");
     scanf("%d", &buffer.habilidade);
 
+    printf("Tem certeza que deseja criar a carta?");
+    printf("1 -  Sim\n2 - Não\n3 - Cancelar e criar outra\n");
+    scanf("%d", &verificacao);
+
     fseek(arq_dat, 0, SEEK_END);
     fwrite(&buffer, sizeof(Cards), 1, arq_dat);
     rewind(arq_dat);
@@ -79,72 +86,87 @@ void AddCard(Cards buffer, FILE *arq_dat)
     ShowCards(buffer);
 }
 
-void ExcluirCard(Cards deck[], FILE *arq_dat){
+void ExcluirCard(Cards deck[], FILE *arq_dat)
+{
 
     char buffer_nome[15];
-    int lines = CountLines(arq_dat), new_size =0;
+    int lines = CountLines(arq_dat), new_size = 0;
     Cards temp_deck[lines];
     bool encontrado = false, end = false;
 
-    do{
+    do
+    {
 
-        new_size = 0;   
+        new_size = 0;
         encontrado = false;
 
         printf("NOME DA CARTA EXCLUIDA: ");
         Strings(buffer_nome, 15);
 
-        for(int i=0; i < lines; i++){
+        for (int i = 0; i < lines; i++)
+        {
 
-            if(strcasecmp(deck[i].nome, buffer_nome) != 0){
+            if (strcasecmp(deck[i].nome, buffer_nome) != 0)
+            {
 
                 temp_deck[new_size++] = deck[i];
-            }else {
+            }
+            else
+            {
 
                 encontrado = true;
                 ShowCards(deck[i]);
             }
         }
 
-        if (encontrado == true){
+        if (encontrado == true)
+        {
 
             char verificacao;
             printf("Tem certeza que deseja excluir o %s? (s/n)\n", buffer_nome);
             scanf("%c", &verificacao);
 
-            if(verificacao == 's' || verificacao == 'S'){
-                
+            if (verificacao == 's' || verificacao == 'S')
+            {
+
                 fclose(arq_dat);
                 arq_dat = fopen("save_cards.dat", "w+b");
-                if(arq_dat == NULL){
+                if (arq_dat == NULL)
+                {
 
                     printf("ERRO AO ZERAR ARQ_DAT!\n");
                     return;
                 }
-                
+
                 rewind(arq_dat);
                 fwrite(temp_deck, sizeof(Cards), new_size, arq_dat);
                 printf("%s foi excluido!\n", buffer_nome);
                 end = true;
-            }else{
+            }
+            else
+            {
 
                 printf("Operação cancelada\n");
                 return;
             }
-        }else {
+        }
+        else
+        {
 
             char verificacao;
             printf("Carta não encontrada!\nTentar novamente?(s\n)\n");
             scanf("%c", &verificacao);
-            if(verificacao == 'n'|| verificacao == 'N'){
+            if (verificacao == 'n' || verificacao == 'N')
+            {
 
                 end = true;
             }
         }
-    }while (!end);
+    } while (!end);
 }
 
-int SearchName(char buffer[], Cards card[], int n_cards) {
+int SearchName(char buffer[], Cards card[], int n_cards)
+{
 
     bool found;
     int x;
