@@ -434,21 +434,19 @@ void SwitchStatus(Cards deck[], Cards buffer, FILE *arq_dat)
 
     if(alterCard){
 
+        int total_lines = CountLines(arq_dat);
         fclose(arq_dat);
-            arq_dat = fopen("save_cards.dat", "w+b");
-            if (arq_dat == NULL)
-            {
+        arq_dat = fopen("save_cards.dat", "w+b");
+        if (arq_dat == NULL)
+        {
 
-                printf("ERRO AO ZERAR ARQ_DAT!\n");
-                return;
-            }
-
-        rewind(arq_dat);
-
-        if(fwrite(deck, sizeof(Cards), CountLines(arq_dat), arq_dat) == 1){
-
-            printf("CARRENGANDO NOVA CARTA NO .DAT...\n");
+            printf("ERRO AO ZERAR ARQ_DAT!\n");
+            return;
         }
+
+        fwrite(deck, sizeof(Cards), total_lines, arq_dat);
+
+        printf("CARTA SENDO ADICIONADA AO ARQ.DAT... NÃO DESLIGUE O PROGRAMA...\n");
     
         printf("CARTA ALTERADA COM SUCESSO!");
         ShowCards(deck[savei]);
@@ -474,8 +472,8 @@ void ExportCsv(FILE *arq_dat)
 
         fprintf(n_arq_csv,"%s,%c,%d,%d,%d,%d,%.2f,%.2f,%d\n",   buffer.nome,
                                                             buffer.tipo,
-                                                            (int)buffer.trunfo,
                                                             buffer.numero,
+                                                            (int)buffer.trunfo,
                                                             buffer.hp,
                                                             buffer.ataque,
                                                             buffer.peso,
