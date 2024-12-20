@@ -5,7 +5,7 @@
 
 typedef struct
 {
-    char nome[15];
+    char nome[20];
     char tipo;
     int numero;
     bool trunfo;
@@ -31,10 +31,10 @@ void SaveBin(FILE *arq_csv, FILE *arq_dat, Cards *buffer)
 
     fgets(header, 200, arq_csv); // ignora cabeçalho
 
-    while (fgets(linha, 60, arq_csv) != NULL)
+    while (fgets(linha, 200, arq_csv) != NULL)
     {
 
-        sscanf(linha, " %14[^,], %c, %d, %d, %d, %d, %f, %f, %d", buffer->nome,
+        sscanf(linha, " %19[^,], %c, %d, %d, %d, %d, %f, %f, %d", buffer->nome,
                &buffer->tipo,
                &buffer->numero,
                (int *)&buffer->trunfo,
