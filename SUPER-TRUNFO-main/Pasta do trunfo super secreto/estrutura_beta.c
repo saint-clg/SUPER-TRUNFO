@@ -5,7 +5,6 @@
 
 int main()
 {
-
     Cards buffer;
     FILE *arq_csv, *arq_dat;
 
@@ -128,6 +127,7 @@ int main()
     }
 
     fclose(arq_dat);
+    free(deck);
 
     return 0;
 }
