@@ -1,6 +1,6 @@
 nome,tipo,numero,trunfo,hp,ataque,peso,altura,habilidade
-Ninetales,F,038,Falso,65,67,19.9,1.1,1
-Articuno,P,144,Falso,90,85,55.4,1.7,1
+Ninetales,G,038,Falso,65,67,19.9,1.1,1
+Articuno,G,144,Falso,90,85,55.4,1.7,1
 Glalie,I,362,Falso,80,70,256.5,1.5,1
 Glalie Mega,I,362,Verdadeiro,80,120,350.2,1.5,2
 Glaceon,I,471,Falso,65,60,25.9,0.8,3
@@ -9,7 +9,6 @@ Kyurem,I,646,Verdadeiro,125,130,325.0,2.6,5
 Mr. Rime,P,866,Falso,80,85,58.0,1.5,1
 Mr. Mime Galar,P,122,Falso,50,65,56.5,1.2,2
 Salamence,D,373,Falso,95,135,102.6,1.5,1
-Salamence Mega,D,373,Verdadeiro,95,150,102.6,1.5,2
 Rayquaza,D,384,Verdadeiro,105,150,206.5,7.0,3
 Garchomp,D,445,Falso,108,130,95.0,1.9,4
 Hydreigon,D,635,Falso,92,125,160.0,1.8,5
@@ -19,7 +18,6 @@ Latios,D,380,Falso,80,130,40.0,1.8,8
 Latias,D,381,Falso,80,110,40.0,1.4,9
 Dragonite,D,149,Falso,91,134,210.0,2.2,10
 Alakazam,P,065,Falso,55,50,48.0,1.5,2
-Alakazam Mega,P,065,Verdadeiro,55,175,48.0,1.5,3
 Mewtwo,P,150,Verdadeiro,106,150,122.0,2.0,4
 Espeon,P,196,Falso,65,65,26.5,0.9,5
 Gardevoir,P,282,Falso,68,85,48.4,1.6,6
@@ -29,7 +27,6 @@ Lunatone,P,337,Falso,90,55,168.0,1.1,9
 Hoopa,P,720,Falso,80,110,9.0,0.6,10
 Jirachi,P,385,Falso,100,100,11.0,0.6,11
 Lucario,L,448,Falso,70,110,54.0,1.2,1
-Lucario Mega,L,448,Verdadeiro,70,145,57.5,1.2,2
 Machamp,L,068,Falso,90,130,130.0,1.6,3
 Toxicroak,L,453,Falso,83,106,44.4,1.3,4
 Hawlucha,L,701,Falso,78,92,21.5,0.8,5
